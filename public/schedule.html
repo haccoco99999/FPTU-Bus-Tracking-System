@@ -331,7 +331,7 @@
                                                 <br>
                                                 <select @change="onChangeAddSpanDriver()" class="selectpicker show-tick"
                                                     v-model="driverselected">
-                                                    <option selected="select">Add more driver</option>
+                                                    <option>Add more driver</option>
                                                     <option v-for="driver in driverList">
                                                         {{driver.username}}
                                                     </option>
@@ -381,10 +381,10 @@
                                         <!-- Do something here -->
                                         <select class="selectpicker show-tick" @change="onChangeDropdownBusline()"
                                             v-model="buslineID">
-                                            <option>
+                                            <option disabled value="">
                                                 Select Busline.
                                             </option>
-                                            <option v-for="busline in buslineList">{{busline.lineID}}</option>
+                                            <option v-for="busline in buslineList" :value="{id: busline.lineID}">{{busline.lineName}}</option>
 
                                         </select>
                                     </div>
@@ -451,9 +451,11 @@
                     <div class="card">
                         <div class="card-body">
                             <form>
-                                <input type="text" v-model="routeName" placeholder="Route Name">
-                                <input type="text" v-model="timestart" placeholder="Time Start">
-                                <input type="text" v-model="timeend" placeholder="Time End"><br>
+                                <input type="text" v-model="routeName" placeholder="Route Name"><br>
+                                <label>Time Start</label>
+                                <input type="time" v-model="timestart" placeholder="Time Start"><br>
+                                <label>Time End</label>
+                                <input type="time" v-model="timeend" placeholder="Time End"><br>
                                 <label> Click to add Bus </label><br>
                                 <div>
                                     
@@ -466,7 +468,7 @@
                                 </div><br>
                                 <select @change="onChangeAddSpanBus()" v-model="busSelected"
                                     class="selectpicker show-tick">
-                                    <option>Add more bus</option>
+                                    <option disabled value="">Add more bus</option>
                                 
                                     <option v-for="bus in busList">
                                         {{bus.bus_id}}
@@ -477,7 +479,7 @@
                                 <label>Click to add driver</label><br>
                                 <select @change="onChangeAddSpanDriver()" v-model="driverSelected"
                                     class="selectpicker show-tick">
-                                    <option>Add more driver</option>
+                                    <option disabled value="">Add more driver</option>
                                     <option v-for="driver in driverList">
                                         {{driver.username}}
                                     </option>

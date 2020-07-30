@@ -7,8 +7,8 @@ var table = document.getElementById('station-table');
 let busline_id_chosen;
 
 var lMarker = [];
-var left = 106.79699;
-var right = 10.846159;
+var left = 106.809478;
+var right = 10.844460;
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHVvbmd2bXNlNjE5NjkiLCJhIjoiY2ticWxrdGNnMm5qNzJxbXgyd2pzdHQzaSJ9.Exqn75WX503GTtWVQ0Vrkw';
 
 let map;
@@ -19,7 +19,7 @@ function renderMap() {
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [left, right],
-        zoom: 15.15,
+        zoom: 14.50,
         attributionControl: false
 
     });

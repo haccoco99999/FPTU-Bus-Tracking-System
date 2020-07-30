@@ -437,9 +437,10 @@ let routevue = new Vue({
     },
     methods: {
         onChangeDropdownBusline: function () {
-            routeaddvue.buslineid = this.buslineID
+           // console.log(this.buslineID.id)
+            routeaddvue.buslineid = this.buslineID.id
 
-            fetch('https://asia-east2-fptbustracking.cloudfunctions.net/routes/api/v1/routelist?buslineid=' + this.buslineID)
+            fetch('https://asia-east2-fptbustracking.cloudfunctions.net/routes/api/v1/routelist?buslineid=' + this.buslineID.id)
                 .then(response => response.json())
                 .then((data) => {
                     this.routeList = data;
@@ -453,7 +454,7 @@ let routevue = new Vue({
         },
 
         deleteRoutes: function (routeid) {
-            fetch('https://asia-east2-fptbustracking.cloudfunctions.net/routes/api/v1/delete?buslineid=' + this.buslineID + '&routeid=' + routeid,
+            fetch('https://asia-east2-fptbustracking.cloudfunctions.net/routes/api/v1/delete?buslineid=' + this.buslineID.id + '&routeid=' + routeid,
                 { method: 'DELETE' })
                 .then((response)=>{
                     if(response.status==200)

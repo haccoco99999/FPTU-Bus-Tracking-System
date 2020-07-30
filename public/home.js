@@ -93,7 +93,7 @@ function addMap() {
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [left, right],
-        zoom: 15.15,
+        zoom: 14.50,
         attributionControl: false
     });
 
@@ -228,7 +228,7 @@ function addMap() {
             }
         });
     })
-    setTimeout(addMap, 60000);
+    setTimeout(addMap, 180000);
 }
 
 
@@ -248,12 +248,12 @@ let departurevue = new Vue({
     },
     methods: {
         onChangeDropdownBusline: function () {
-            if(this.buslineID!=  'Select Busline.'){
-            fetch('https://asia-east2-fptbustracking.cloudfunctions.net/routes/api/v1/routelist?buslineid=' + this.buslineID)
+          
+            fetch('https://asia-east2-fptbustracking.cloudfunctions.net/routes/api/v1/routelist?buslineid=' + this.buslineID.id)
                 .then(response => response.json())
                 .then((data) => {
                     this.routeList = data;
-                })}
+                })
         },
         millisToMinutesAndSeconds: function (millis) {
             var time = new Date(millis).getTime();

@@ -170,18 +170,27 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Departures</h4>
+                                    <h4 class="card-title">Departures</h4><br>
                                 </div>
                                 <div class="card-body all-icons">
                                     <!-- Do something here -->
-                                    <select class="selectpicker show-tick"
+                                    <!-- <select class="selectpicker show-tick"
                                     @change="onChangeDropdownBusline()" v-model="buslineID">
-                                        <option value="default" >
-                                            Select Busline.
-                                        </option>
-                                        <option v-for="busline in buslineList">{{busline.lineID}}</option>
+                                    <option disabled value="">
+                                        Select Busline.
+                                    </option>
+                                        <option v-for="busline in buslineList" :value ="{id:busline.lineID}" >{{busline.lineName}}</option>
 
-                                    </select>
+                                    </select> -->
+                                    <h5 class="card-title">Select Bus Lines</h5>
+                                    <select class="selectpicker show-tick" @change="onChangeDropdownBusline()"
+                                    v-model="buslineID">
+                                    <!-- <option disabled value="">
+                                        Select Busline.
+                                    </option> -->
+                                    <option v-for="busline in buslineList" :value="{id: busline.lineID}">{{busline.lineName}}</option>
+
+                                </select>
                                 </div>
                             </div>
                         </div>
