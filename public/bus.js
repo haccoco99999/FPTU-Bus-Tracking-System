@@ -26,7 +26,7 @@
 //     seat.setAttribute('id','seat');
 //     des.setAttribute('id','des');
 
-    
+
 //     busID.textContent = doc.data().bus_id;
 //     busName.textContent = doc.data().bus_name;
 //     license_plate.textContent = doc.data().license_plate;
@@ -38,10 +38,10 @@
 //     button_update.innerHTML = 'Update';
 //     button_update.setAttribute('data-toggle','modal');
 //     button_update.setAttribute('data-target','#myModal');
-    
+
 //     button_delete.innerHTML = 'Delete';
 //     button_delete.className = "btn btn-info btn-fill btn-wd";
-    
+
 
 //     tr.appendChild(busID);
 //     tr.appendChild(busName);
@@ -56,7 +56,7 @@
 
 //     //delete data
 //     button_delete.addEventListener('click', (e) =>{
-        
+
 //         let id = e.target.parentElement.getAttribute('data-id');
 //         firebase.firestore().collection('Buses').doc(id).delete();
 //     })
@@ -99,7 +99,7 @@
 // form.addEventListener('submit', (e) => {
 //     e.preventDefault();
 //     firebase.firestore().collection('Buses').doc(form.bus_id.value).set({
-        
+
 //         bus_id: form.bus_id.value,
 //         bus_name : form.bus_name.value,
 //         license_plate: form.license.value,
@@ -133,7 +133,7 @@
 //     console.log(bus_name);
 //     console.log(license);
 
-    
+
 //     document.getElementById("busID_u").value  =  bus_id;
 //     document.getElementById('busName_u').value = bus_name ;
 //     document.getElementById('uLicense').value = license ;
@@ -143,7 +143,7 @@
 //     {
 //         document.getElementById('uNote').value = note ;
 //     }
-    
+
 //     // document.getElementById('license_u').value=license;
 //     // document.getElementById('model_u').value=model ;
 //     // document.getElementById('seat_u').value=seat ;
@@ -161,7 +161,7 @@
 //             seat: form_update.seat_u.value,
 //             des: form_update.note_u.value 
 //         });
-        
+
 
 //     })
 
@@ -181,23 +181,38 @@ var vm = new Vue({
         },
     },
     mounted() {
-       this.listAllBus()
+        this.listAllBus()
     },
     methods: {
-        listAllBus(){
+        listAllBus() {
             fetch("https://asia-east2-fptbustracking.cloudfunctions.net/buses/api/v1/buslist")
-            .then(response => response.json())
-            .then((data) => {
-                this.buses = data;
-            })
+                .then(response => response.json())
+                .then((data) => {
+                    this.buses = data;
+                })
         },
         deletebyID(busidfordelete) {
+
             fetch("https://asia-east2-fptbustracking.cloudfunctions.net/buses/api/v1/bus/delete?docid=" + busidfordelete, { method: 'DELETE' })
-            .then(this.listAllBus())
+                .then(this.listAllBus())
+                .then((response) => {
+                    if (response.status == 200)
+                        // alert('Add Complete!')
+                        if (!alert('Add Complete!')) { window.location.reload(); }
+                })
 
         },
         updateBus(busid, busname, busmodel, busseat, buslicenseplate) {
-            fetch("https://asia-east2-fptbustracking.cloudfunctions.net/buses/api/v1/bus/add?docid=" + busid + "&name=" + busname + "&license=" + buslicenseplate + "&model=" + busmodel + "&seat=" + busseat + "&note=" + this.busnote, this.otherParam);
+            if (busid == '' || busname == '' || busseat == '' || busmodel == '' || buslicenseplate == '') {
+                if (!alert('You have to input all fields')) { window.location.reload() }
+            } else {
+                fetch("https://asia-east2-fptbustracking.cloudfunctions.net/buses/api/v1/bus/add?docid=" + busid + "&name=" + busname + "&license=" + buslicenseplate + "&model=" + busmodel + "&seat=" + busseat + "&note=" + this.busnote, this.otherParam)
+                    .then((response) => {
+                        if (response.status == 200)
+                            // alert('Add Complete!')
+                            if (!alert('Add Complete!')) { window.location.reload(); }
+                    });
+            }
         },
 
 
@@ -223,10 +238,17 @@ var vuejs = new Vue({
     },
     methods: {
         addBus() {
-            fetch("https://asia-east2-fptbustracking.cloudfunctions.net/buses/api/v1/bus/add?docid=" + this.buses.busId + "&name=" + this.buses.busName + "&license=" + this.buses.busPlate + "&model=" + this.buses.busModel + "&seat=" + this.buses.busSeat + "&note=" + this.buses.busNote, this.otherParam)
-            .then(location.reload())
+
+
+                fetch("https://asia-east2-fptbustracking.cloudfunctions.net/buses/api/v1/bus/add?docid=" + this.buses.busId + "&name=" + this.buses.busName + "&license=" + this.buses.busPlate + "&model=" + this.buses.busModel + "&seat=" + this.buses.busSeat + "&note=" + this.buses.busNote, this.otherParam)
+                    .then((response) => {
+                        if (response.status == 200)
+                            // alert('Add Complete!')
+                            if (!alert('Add Complete!')) { window.location.reload(); }
+                    })
+            
         }
     },
 
-   
+
 });

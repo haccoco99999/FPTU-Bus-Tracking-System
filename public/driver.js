@@ -200,7 +200,11 @@ var vueInstance = new Vue({
         },
         deleteUserbyID(userID) {
             fetch("https://asia-east2-fptbustracking.cloudfunctions.net/drivers/api/v1/delete?docid=" + userID, { method: 'DELETE' })
-                .then(window.location.reload())
+            .then((response) =>{
+                if(response.status == 200)
+                   // alert('Add Complete!')
+                    if(!alert('Add Complete!')){window.location.reload();}
+            })
         },
 
     }
@@ -238,6 +242,10 @@ var addUser = new Vue({
                     this.getUID = data.uid
                     console.log(this.getUID)
                     this.addUserIntoCollection(data.uid)
+                }).then((response) =>{
+                    if(response.status == 200)
+                       // alert('Add Complete!')
+                        if(!alert('Add Complete!')){window.location.reload();}
                 })
 
             }else{
@@ -250,7 +258,11 @@ var addUser = new Vue({
             if (uid != '') {
                 fetch('https://asia-east2-fptbustracking.cloudfunctions.net/drivers/api/v1/driver?userid='+uid+'&email=' + this.Users.useremail,
                     { method: 'POST' })
-                    .then(window.location.reload())
+                    .then((response) =>{
+                        if(response.status == 200)
+                           // alert('Add Complete!')
+                            if(!alert('Add Complete!')){window.location.reload();}
+                    })
             } else {
                 alert('Do not have user uid')
             }

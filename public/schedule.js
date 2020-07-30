@@ -459,7 +459,8 @@ let routevue = new Vue({
                 .then((response)=>{
                     if(response.status==200)
                     {
-                        alert('Delete Complete!')
+                        //alert('Delete Complete!')
+                        if(! alert('Delete Complete!')){window.location.reload()}
                     }
                 })
 
@@ -550,7 +551,7 @@ var routeupdatevue = new Vue({
             }
         },
         updateSchedule: function () {
-            let buslineid = routevue.buslineID
+            let buslineid = routevue.buslineID.id
 
             let scheduleid = this.scheduleid
             let scheduleName = this.scheduleName
@@ -572,7 +573,11 @@ var routeupdatevue = new Vue({
             } else {
                 fetch('https://asia-east2-fptbustracking.cloudfunctions.net/routes/api/v1/route?buslineid=' + buslineid + '&routeid=' + scheduleid + '&name=' + scheduleName + '&busid=' + bus_u + '&driverid=' + driver_u + '&timestart=' + timestart_u + '&timeend=' + timeend_u,
                     { method: 'POST' })
-                    .then(response => console.log(response.status))
+                    .then(response =>{
+                        if(response.status == 200)
+                            //alert('Update Complete!')
+                            if(!alert('Update Complete!')){window.location.reload()}
+                    })
             }
         },
 
@@ -650,14 +655,16 @@ var routeaddvue = new Vue({
                 }
 
                 if (routename == '' || timestart == '' || timeend == '' || driver_u == '' || bus_u == '') {
-                    alert('You have to input all fields')
+                    alert('You have to input all fields') 
+                    if(! alert('You have to input all fields') ){}
                 } else {
 
                     fetch('https://asia-east2-fptbustracking.cloudfunctions.net/routes/api/v1/route?buslineid=' + this.buslineid + '&routeid=' + routename + '&name=' + routename + '&busid=' + bus_u + '&driverid=' + driver_u + '&timestart=' + timestart + '&timeend=' + timeend,
                         { method: 'POST' })
                         .then((response) =>{
                             if(response.status == 200)
-                                alert('Add Complete!')
+                               // alert('Add Complete!')
+                                if(!alert('Add Complete!')){window.location.reload();}
                         })
                 }
             } else {
