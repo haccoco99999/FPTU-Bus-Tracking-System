@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="./assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Manage Stations of Busline</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+        name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./assets/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="./assets/css/demo.css" rel="stylesheet" />
+    <!-- jquery -->
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- firebase -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
+    <!-- map-box -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+    <link href="css/mapbox.css" rel="stylesheet" type="text/css" />
+    <!-- Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="sidebar" data-image="./assets/img/sidebar-5.jpg" data-color="orange">
+            <!--
+            Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+    
+            Tip 2: you can also add an image using data-image tag
+                -->
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="#" class="simple-text">
+                        FPT BTS
+                    </a>
+                </div>
+                <ul class="nav">
+                    <li>
+                        <a class="nav-link" href="home.html">
+                            <p>Home</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="manageBus.html">
+                            <p>Manage Bus</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="manageDriver.html">
+                            <p>Manage Driver</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="manageRoute.html">
+                            <p>Manage Bus Line</p>
+                        </a>
+                    </li>
+                    <!-- <hr> -->
+                    <li class="nav-item ">
+                        <a class="nav-link" href="schedule.html">
+                            <p>Manage Schedule</p>
+                        </a>
+                    </li>
+                    <div class="logo"></div>
+
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <form>
+                <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+                    <div class="container-fluid">
+
+
+                        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" data-toggle="modal" data-target="#AcountModal">
+                                        <span class="no-icon">Account</span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" onclick="signOut();">Sign out</a>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </form>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="AcountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="exampleModalLabel">Account Info</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h4 id="acountInfo"></h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">BUS LINE SETTING</h4>
+                                </div>
+                                <div class="card-body">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div <div class="container-fluid" style="height: 1500px;">
+                        <div class="row" style="height: 650px;">
+                            <div id="map"></div></br>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" id='btnListRoutes'>
+
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card-body table-full-width table-responsive">
+                                    <table id='station-table' class="table table-hover table-striped">
+                                        <thead>
+                                            <th>Station Name</th>
+                                            <th>Longitude</th>
+                                            <th>Latitude</th>
+                                        </thead>
+                                        <tbody id="station-list">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="add-station-form">
+                                            <input type="text" name="station_name" placeholder="Station Name">
+                                            <button class="btn btn-info btn-fill btn-wd">Add Station</button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="content">
+                    
+                    <div class="row" style="height: 650px;">
+                        <div id="map_vue"></div></br>
+                    </div>
+
+                    </div> -->
+
+                    <!-- <div id="busline_vue">
+                        <div class="content">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h4 class="card-title">BUS</h4>
+                                            </div>
+                                            <div class="card-body all-icons">
+
+                                                <select id="dropdown-buslinelist" class="selectpicker show-tick"
+                                                    @change="onChangeDropdownBusline()" v-model="buslineID">
+                                                    <option>Select busline</option>
+                                                    <option v-for="busline in buslineList">{{busline.lineID}}</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="container-fluid" style="height: 1500px;">
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card-body table-full-width table-responsive">
+                                                <table id='station-table-vue' class="table table-hover table-striped">
+                                                    <thead>
+                                                        <th >Station Name</th>
+                                                        <th>Longitude</th>
+                                                        <th>Latitude</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr v-for="station in stationlist" v-bind:id="station.id">
+                                                            <td>{{station.name}}</td>
+                                                            <td ref="abv" >{{station.position._longitude}}</td>
+                                                            <td >{{station.position._latitude}}</td>
+                                                            <td>
+                                                                <button
+                                                                    class="btn btn-info btn-fill btn-wd"
+                                                                    v-on:click="postStation(station.id,station.position._longitude,station.position._latitude)">Update</button>
+                                                                <button class="btn btn-info btn-fill btn-wd"
+                                                                    v-on:click="deleteStation(station.id)">Delete</button>
+                                                            </td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <form id="add-station-form-vue">
+                                                        <input type="text" name="station_name"
+                                                            placeholder="Station Name">
+                                                        <button class="btn btn-info btn-fill btn-wd">Add
+                                                            Station</button>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- footer -->
+                    <footer class="footer">
+                        <div class="container-fluid">
+                            <nav>
+
+                                <p class="copyright text-center">
+                                    �
+                                    <script>
+                                        document.write(new Date().getFullYear())
+                                    </script>
+                                    <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better
+                                    web
+                                </p>
+                            </nav>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
+</body>
+<!--   Core JS Files   -->
+<script src="./assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="./assets/js/core/popper.min.js" type="text/javascript"></script>
+<script src="./assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="./assets/js/plugins/bootstrap-switch.js"></script>
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+<!--  Chartist Plugin  -->
+<script src="./assets/js/plugins/chartist.min.js"></script>
+<!--  Notifications Plugin    -->
+<script src="./assets/js/plugins/bootstrap-notify.js"></script>
+<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
+<script src="./assets/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
+<!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
+<script src="./assets/js/demo.js"></script>
+<script src="fireBase.js"></script>
+<script src="main.js"></script>
+<script src="bus-line.js"></script>
+
+</html>

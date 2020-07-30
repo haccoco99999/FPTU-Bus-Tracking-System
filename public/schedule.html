@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="./assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id"
+        content="739110342023-ngl5t0t62nf9ht5dcujq1paatdacjp97.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <title>Schedule</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+        name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./assets/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="./assets/css/demo.css" rel="stylesheet" />
+    <!-- firebase -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
+    <!-- tags input -->
+
+    <!-- Vue -->
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="sidebar" data-image="./assets/img/sidebar-5.jpg" data-color="orange">
+            <!--
+            Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+    
+            Tip 2: you can also add an image using data-image tag
+                -->
+            <div class="sidebar-wrapper">
+                <div class="sidebar-wrapper">
+                    <div class="logo">
+                        <a href="#" class="simple-text">
+                            FPT BTS
+                        </a>
+                    </div>
+                    <ul class="nav">
+                        <li>
+                            <a class="nav-link" href="home.html">
+                                <p>Home</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="manageBus.html">
+                                <p>Manage Bus</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="manageDriver.html">
+                                <p>Manage Driver</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="manageRoute.html">
+                                <p>Manage Bus Line</p>
+                            </a>
+                        </li>
+                        <!-- <hr> -->
+                        <li class="nav-item ">
+                            <a class="nav-link" href="schedule.html">
+                                <p>Manage Schedule</p>
+                            </a>
+                        </li>
+                        <div class="logo"></div>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <!-- from cua search room id + log out + account //de cho khac no be layout-->
+            <form>
+                <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#"> Schedule </a>
+
+                        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+
+                            
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" data-toggle="modal" data-target="#AcountModal">
+                                        <span class="no-icon">Account</span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href='#' onclick=" mainApp.logOut();">Sign out</a>
+                                    
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </form>
+            <!-- Modal -->
+            <div class="modal fade" id="AcountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="exampleModalLabel">Account Info</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h4 id="acountInfo"></h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Navbar -->
+            <!-- <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">SCHEDULE</h4>
+                                </div>
+                                <div class="card-body all-icons">
+                                   
+
+                                    <h3>SELECT BUS LINE</h3>
+                        
+
+                                    <select id="dropdown-buslinelist" class="selectpicker show-tick">
+                                        <option>Select busline</option>
+                                    </select>
+
+
+
+                                    </form>
+
+
+
+                                    <div style="width: 100%; text-align: center; align-content: center">
+                                        <h2>SCHEDULE</h2>
+                                        <div class="card-body table-full-width table-responsive">
+                                            <table id="schedule-table" class="table table-hover table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align: center">Name</th>
+                                                        <th style="text-align: center">Time Start</th>
+                                                        <th style="text-align: center">Time End</th>
+                                                        <th style="text-align: center">Bus Available</th>
+                                                        <th style="text-align: center">Driver Available</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="schedule_bus">
+
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12" id='div-add-schedule'>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <form id="add-schedule-form">
+                                                    <input type="text" id="name_a" name="name"
+                                                        placeholder="Schedule Name">
+                                                    <input type="text" id="time_start_a" name="time_start"
+                                                        placeholder="Time Start">
+                                                    <input type="text" id="time_end_a" name="time_end"
+                                                        placeholder="Time End">
+
+                                                    <div>
+                                                        <button id="btnAddSchedule">Add bus</button><br>
+                                                        <div id="bus_available_a"></div>
+                                                    </div>
+                                                    <select id="dropdown-buslist_a" class="selectpicker show-tick">
+                                                        <option>Add more bus</option>
+                                                    </select>
+
+                                                    <div>
+                                                        <button id="btnDriverA">Add driver</button><br>
+
+                                                    </div>
+                                                    <select id="dropdown-driverlist_a" class="selectpicker show-tick">
+                                                        <option>Add more driver</option>
+                                                    </select>
+                                                    <div id="driver_available_a"></div>
+                                                    <button class="btn btn-info btn-fill btn-wd">Add Schedule</button>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal fade" id="myModal">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+
+                                                
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Bus Update </h4>
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+
+                                                
+
+                                                <div class="modal-body">
+                                                    <div class="col-md-12">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <form id="update-schedule-form">
+                                                                    <input type="text" id="name_u"
+                                                                        placeholder="Schedule Name"><br>
+                                                                    <input type="text" id="time_start_u"
+                                                                        placeholder="Time Start"><br>
+                                                                    <input type="text" id="time_end_u"
+                                                                        placeholder="Time End">
+                                                                    <div>
+                                                                        <button id="add_bus_btn">Add
+                                                                            bus</button><br>
+                                                                        <div id="bus_available_u"></div>
+                                                                    </div>
+
+                                                                    <select id="dropdown-buslist"
+                                                                        class="selectpicker show-tick">
+                                                                        <option>Add more bus</option>
+                                                                    </select>
+
+
+                                                                    <div>
+                                                                        <button id="btnDriverU">Add
+                                                                            driver</button><br>
+
+                                                                    </div>
+                                                                    <select id="dropdown-driverlist_u"
+                                                                        class="selectpicker show-tick">
+                                                                        <option>Add more driver</option>
+                                                                    </select>
+                                                                    <div id="driver_available_u"></div>
+                                                                   
+                                                                    <button class="btn btn-info btn-fill btn-wd">Update
+                                                                        Schedule</button>
+                                                                </form>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                               
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div id="routeupdatevue">
+                <div class="modal fade" id="myModalV">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Bus Update </h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+
+                            <div class="modal-body">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form>
+                                                <label>Schedule Name</label><br>
+                                                <input type="text" placeholder="Route Name" v-model="scheduleName"><br>
+                                                <label>Time Start</label><br>
+                                                <input type="text" placeholder="Time Start" v-model="timestart"><br>
+                                                <label>Time End</label><br>
+                                                <input type="text" placeholder="Time End" v-model="timeend"> <br>
+                                                <label>Click to add bus</label> <br>
+                                                <div>
+
+                                                    <span class="badge badge-pill badge-primary"
+                                                        v-for="span,index in spanBusRenderList"
+                                                        v-if="spanBusRenderList.length > 0">
+                                                        <span>{{span}}</span>
+                                                        <a href="#" v-on:click="deleteSpan(span,index,0)">x</a>
+                                                    </span>
+
+                                                </div><br>
+
+                                                <select @change="onChangeAddSpanBus()" class="selectpicker show-tick"
+                                                    v-model="busselected">
+                                                    <option>Add more bus</option>
+                                                    <option v-for="bus in busList">
+                                                        {{bus.bus_id}}
+                                                    </option>
+                                                </select>
+
+                                                <br>
+                                                <label>Click to add driver</label><br>
+
+                                                <br>
+                                                <select @change="onChangeAddSpanDriver()" class="selectpicker show-tick"
+                                                    v-model="driverselected">
+                                                    <option selected="select">Add more driver</option>
+                                                    <option v-for="driver in driverList">
+                                                        {{driver.username}}
+                                                    </option>
+                                                </select>
+                                                <br>
+                                                <div>
+                                                    <span v-for="item,index in spanDriverRenderList"
+                                                        class="badge badge-pill badge-primary"
+                                                        v-if="spanDriverRenderList.length > 0">
+                                                        <span>{{item}} </span>
+
+                                                        <a href="#" v-on:click="deleteSpan(item,index,1)">x</a>
+                                                    </span>
+                                                </div> <br>
+                                                <!-- <input type="text" id="tags_1" class="tags" value="foo,bar"/><br> -->
+                                                <button v-on:click="updateSchedule()"
+                                                    class="btn btn-info btn-fill btn-wd">Update
+                                                    Schedule</button> <br>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="routevue">
+                <div class="content">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Select BusLine</h4>
+                                    </div>
+                                    <div class="card-body all-icons">
+                                        <!-- Do something here -->
+                                        <select class="selectpicker show-tick" @change="onChangeDropdownBusline()"
+                                            v-model="buslineID">
+                                            <option>
+                                                Select Busline.
+                                            </option>
+                                            <option v-for="busline in buslineList">{{busline.lineID}}</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12"  style="text-align: center; align-content: center">
+                        <h2>SCHEDULE</h2>
+                        <div class="card-body table-full-width table-responsive">
+                            <table id='station-table' class="table table-hover table-striped">
+                                <thead>
+                                    <th>Route Name</th>
+                                    <th>Time Start</th>
+                                    <th>Time End</th>
+                                    <th>Bus</th>
+                                    <th>Driver</th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="route in routeList">
+                                        <td>
+                                            {{route.routeName}}
+                                        </td>
+                                        <td>
+                                            {{millisToMinutesAndSeconds(route.timeStart)}}
+                                        </td>
+                                        <td>
+                                            {{millisToMinutesAndSeconds(route.timeEnd)}}
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-pill badge-primary">
+                                                {{route.currentBusID}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class=" badge badge-pill badge-info">
+                                                {{route.currentDriverID}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-info btn-fill btn-wd" data-toggle="modal"
+                                                data-target="#myModalV"
+                                                v-on:click="transferDataIntoUpdateForm(route.id,route.routeName,millisToMinutesAndSeconds(route.timeStart),millisToMinutesAndSeconds(route.timeEnd),route.currentBusID,route.currentDriverID)">Update</button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-info btn-fill btn-wd"
+                                                v-on:click="deleteRoutes(route.id)">Delete</button>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div id="routeaddvue">
+                <div class="col-md-12" id='div-add-schedule'>
+                    <div class="card">
+                        <div class="card-body">
+                            <form>
+                                <input type="text" v-model="routeName" placeholder="Route Name">
+                                <input type="text" v-model="timestart" placeholder="Time Start">
+                                <input type="text" v-model="timeend" placeholder="Time End"><br>
+                                <label> Click to add Bus </label><br>
+                                <div>
+                                    
+                                        <span class="badge badge-pill badge-primary"
+                                            v-for="span,index in spanBusRenderList" v-if="spanBusRenderList.length > 0">
+                                            <span>{{span}}</span>
+                                            <a href="#" v-on:click="deleteSpan(span,index,0)">x</a>
+                                        </span>
+                                
+                                </div><br>
+                                <select @change="onChangeAddSpanBus()" v-model="busSelected"
+                                    class="selectpicker show-tick">
+                                    <option>Add more bus</option>
+                                
+                                    <option v-for="bus in busList">
+                                        {{bus.bus_id}}
+                                    </option>
+                                
+                                </select>
+                                <br>
+                                <label>Click to add driver</label><br>
+                                <select @change="onChangeAddSpanDriver()" v-model="driverSelected"
+                                    class="selectpicker show-tick">
+                                    <option>Add more driver</option>
+                                    <option v-for="driver in driverList">
+                                        {{driver.username}}
+                                    </option>
+                                </select>
+                                <div>
+                                    <span v-for="item,index in spanDriverRenderList"
+                                        class="badge badge-pill badge-primary" v-if="spanDriverRenderList.length > 0">
+                                        <span>{{item}} </span>
+
+                                        <a href="#" v-on:click="deleteSpan(item,index,1)">x</a>
+                                    </span>
+                                </div>
+                                <button v-on:click="addNewRoute()" class="btn btn-info btn-fill btn-wd">Add Schedule</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav>
+
+                        <p class="copyright text-center">
+                            �
+                            <script>
+                                document.write(new Date())
+                            </script>
+                        </p>
+                    </nav>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+
+</body>
+<!--   Core JS Files   -->
+<script src="./assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="./assets/js/core/popper.min.js" type="text/javascript"></script>
+<script src="./assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="./assets/js/plugins/bootstrap-switch.js"></script>
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+<!--  Chartist Plugin  -->
+<script src="./assets/js/plugins/chartist.min.js"></script>
+<!--  Notifications Plugin    -->
+<script src="./assets/js/plugins/bootstrap-notify.js"></script>
+<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
+<!-- <script src="./assets/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script> -->
+<!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
+<script src="./assets/js/demo.js"></script>
+<script src="fireBase.js"></script>
+<script src="main.js"></script>
+<script src="schedule.js"></script>
+
+
+</html>
